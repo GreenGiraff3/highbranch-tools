@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Missed Call Revenue Calculator for Small Businesses | HighBranch</title>
+<meta name="description" content="Free missed call revenue calculator: see how much money unanswered calls cost your business each month and year. No signup.">
+<link rel="stylesheet" href="style.css"></head>
+<body><div class="wrap">
+<header class="top"><a class="brand" href="./">HighBranch Free Tools</a><a href="https://highbranch.ai">highbranch.ai</a></header>
+<h1>Missed call revenue calculator</h1>
+<p class="lede">Every call you don't answer is a customer who probably calls the next business on the list. Put in your own numbers to see what missed calls cost you.</p>
+<div class="card"><div class="grid">
+<div><label for="calls">Calls per day <span class="hint">(all inbound calls)</span></label><input id="calls" type="number" min="0" value="15"></div>
+<div><label for="missed">% you miss <span class="hint">(after hours, on a job, at lunch)</span></label><input id="missed" type="number" min="0" max="100" value="25"></div>
+<div><label for="close">% of answered calls that book</label><input id="close" type="number" min="0" max="100" value="30"></div>
+<div><label for="value">Average job value ($)</label><input id="value" type="number" min="0" value="350"></div>
+<div><label for="days">Days open per month</label><input id="days" type="number" min="1" max="31" value="22"></div>
+</div>
+<div class="result">
+<div class="stat"><div class="k">Missed calls / month</div><div class="v" id="r1">0</div></div>
+<div class="stat"><div class="k">Lost revenue / month</div><div class="v" id="r2">$0</div></div>
+<div class="stat"><div class="k">Lost revenue / year</div><div class="v" id="r3">$0</div></div>
+</div></div>
+<p class="fine">How it works: missed calls × the share that would have booked × your average job value. It's an estimate from your inputs, not a guarantee. Some callers leave voicemails or call back.</p>
+<div class="cta"><a class="btn" href="https://highbranch.ai">Get a free 20-minute AI audit</a><a class="btn ghost" href="receptionist-cost.html">AI vs human receptionist cost →</a></div>
+<p class="fine">Made by HighBranch, a small AI consultancy in Charlotte, NC.</p>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const money=n=>'$'+Math.round(n).toLocaleString('en-US');
+function calc(){const c=+$('calls').value||0,m=(+$('missed').value||0)/100,cl=(+$('close').value||0)/100,v=+$('value').value||0,d=+$('days').value||0;
+const missed=c*m*d,lost=missed*cl*v;$('r1').textContent=Math.round(missed).toLocaleString('en-US');$('r2').textContent=money(lost);$('r3').textContent=money(lost*12);}
+document.querySelectorAll('input').forEach(i=>i.addEventListener('input',calc));calc();
+</script></body></html>

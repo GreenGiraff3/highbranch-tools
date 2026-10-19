@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Readiness Assessment for Small Businesses (Free, 2 Minutes) | HighBranch</title>
+<meta name="description" content="Free 12-question AI readiness assessment for small businesses. Get a score out of 100 and the top 3 things AI could take off your plate.">
+<link rel="stylesheet" href="style.css"></head>
+<body><div class="wrap">
+<header class="top"><a class="brand" href="./">HighBranch Free Tools</a><a href="https://highbranch.ai">highbranch.ai</a></header>
+<h1>Is your business ready for AI?</h1>
+<p class="lede">12 quick questions, about 2 minutes. You'll get a score out of 100 and the three automations most likely to save you time.</p>
+<form class="card" id="quiz"></form>
+<div class="card" id="out" hidden style="margin-top:16px">
+<div class="result"><div class="stat"><div class="k">Your AI readiness</div><div class="v" id="score">0</div></div></div>
+<p id="verdict" style="font-weight:600;margin:18px 0 6px"></p>
+<p class="hint">Start with these three:</p><ul class="tools" id="picks"></ul>
+<div class="cta"><a class="btn" href="https://highbranch.ai">Get a free 20-minute AI audit</a><a class="btn ghost" href="https://giraffinity7.gumroad.com/l/owners-ai-kit?utm_source=readiness-tool">40 copy-paste prompts for owners</a></div>
+</div>
+<p class="fine">Made by HighBranch, a small AI consultancy in Charlotte, NC. Your answers stay in your browser.</p>
+</div>
+<script>
+const Q=[
+["How do new leads reach you?",["Mostly phone calls","Web forms and email","Texts and DMs","A mix of everything"],"leads"],
+["How fast do you usually reply to a new lead?",["Within minutes","Within a few hours","Next day","It depends on the week"],"leads"],
+["Who answers the phone when you're busy?",["A dedicated person","Whoever's free","Voicemail","Nobody, honestly"],"phone"],
+["How do you write quotes or estimates?",["Software with templates","A document I copy each time","From scratch every time","In my head, then a text"],"quotes"],
+["How many Google reviews have you replied to?",["All of them","Some","Almost none","I don't check"],"reviews"],
+["How do you chase late invoices?",["Automatic reminders","I email when I remember","I call","I usually don't"],"money"],
+["Do you have written steps (SOPs) for your main jobs?",["Yes, for most","For a few","They're in my head","No"],"ops"],
+["How often do you post on social media?",["Weekly or more","Monthly","Rarely","Never"],"marketing"],
+["Do you use any calendar or booking tool?",["Online booking","A shared calendar","Paper or texts","No"],"phone"],
+["Have you used ChatGPT, Claude or similar for work?",["Weekly","A few times","Once","Never"],"skill"],
+["Where do your customer details live?",["A CRM","A spreadsheet","My phone and email","All over the place"],"ops"],
+["How many hours a week go to admin?",["Under 3","3 to 8","8 to 15","More than 15"],"time"]];
+const PICKS={leads:"Instant replies to new leads (text back within a minute)",phone:"An AI receptionist for after-hours and overflow calls",quotes:"Quotes drafted from a job description in minutes",reviews:"Review replies written in your voice",money:"Automatic, polite invoice reminders",ops:"SOPs turned out of voice notes",marketing:"A month of posts drafted in one sitting",skill:"A 1-hour starter session with the 5 prompts that matter most",time:"An hour audit to find your biggest time sinks"};
+const f=document.getElementById('quiz');
+f.innerHTML=Q.map((q,i)=>`<div class="q"><p>${i+1}. ${q[0]}</p><div class="opts">${q[1].map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}" required>${o}</label>`).join('')}</div></div>`).join('')+'<div class="cta"><button class="btn" type="submit" style="border:0;cursor:pointer;font:inherit;font-weight:700">See my score</button></div>';
+f.addEventListener('submit',e=>{e.preventDefault();let pts=0;const gap={};
+Q.forEach((q,i)=>{const v=+(new FormData(f).get('q'+i));pts+=(3-v);gap[q[2]]=(gap[q[2]]||0)+v;});
+// readiness = how much AI could help: more manual answers -> higher opportunity; score shows readiness of systems
+const score=Math.round(pts/(Q.length*3)*100);
+document.getElementById('score').textContent=score+"/100";
+document.getElementById('verdict').textContent=score>=70?"You're set up well. AI can sharpen what you already do.":score>=40?"Good bones. A few automations would free up real hours.":"Lots of manual work, which means lots of easy wins.";
+const top=Object.entries(gap).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k])=>PICKS[k]);
+document.getElementById('picks').innerHTML=top.map(t=>`<li>${t}</li>`).join('');
+const o=document.getElementById('out');o.hidden=false;o.scrollIntoView({behavior:'smooth'});});
+</script></body></html>
